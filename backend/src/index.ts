@@ -9,6 +9,8 @@ import path from "node:path";
 const env = getEnv();
 const app = express();
 
+import keepAliveCron from "./lib/cron";
+
 const rawJson = express.raw({ type: "application/json", limit: "1mb" });
 
 app.post("/webhooks/clerk", rawJson, (req, res) => {
@@ -18,6 +20,10 @@ app.post("/webhooks/clerk", rawJson, (req, res) => {
 app.use(express.json());
 app.use(cors());
 app.use(clerkMiddleware());
+
+app.get("/health", (_req, res) => {
+  res.json({ ok: true });
+});
 
 const publicDir = path.join(process.cwd(), "public");
 if (fs.existsSync(publicDir)) {
@@ -40,4 +46,7 @@ if (fs.existsSync(publicDir)) {
 
 app.listen(env.PORT, () => {
   console.log(`Listening to PORT: ${env.PORT}!`);
+  if (env.NODE_ENV === "production") {
+    keepAliveCron.start();
+  }
 });
