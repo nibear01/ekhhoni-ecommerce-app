@@ -13,7 +13,7 @@ import * as Sentry from "@sentry/node";
 const env = getEnv();
 const app = express();
 
-import keepAliveCron from "./lib/cron";
+// import keepAliveCron from "./lib/cron";
 import meRouter from "./routes/meRouter";
 import productRouter from "./routes/productRouter";
 import streamRouter from "./routes/streamRouter";
@@ -89,6 +89,6 @@ app.use(
 app.listen(env.PORT, () => {
   console.log(`Listening to PORT: ${env.PORT}!`);
   if (env.NODE_ENV === "production") {
-    keepAliveCron.start();
+    // keepAliveCron.start();
   }
 });
