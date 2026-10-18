@@ -18,6 +18,15 @@ export type CheckoutSessionLine = {
   unitPriceCents: number;
 };
 
+/** delivery details collected at checkout (SSLCommerz also requires name/phone/address) */
+export type ShippingDetails = {
+  name: string;
+  phone: string;
+  address: string;
+  city: string;
+  postcode?: string;
+};
+
 export const users = pgTable("users", {
   id: uuid("id").defaultRandom().primaryKey(),
   clerkUserId: text("clerk_user_id").notNull().unique(),
@@ -38,8 +47,9 @@ export const products = pgTable("products", {
   name: text("name").notNull(),
   category: text("category").notNull().default("General"),
   description: text("description").notNull().default(""),
+  /** minor units: poisha for BDT (৳1 = 100) */
   priceCents: integer("price_cents").notNull(),
-  currency: text("currency").notNull().default("usd"),
+  currency: text("currency").notNull().default("bdt"),
   imageUrl: text("image_url"),
   /** ImageKit `fileId` for deletes */
   imageKitFileId: text("image_kit_file_id"),
@@ -54,10 +64,12 @@ export const checkoutSessions = pgTable("checkout_sessions", {
   userId: uuid("user_id")
     .notNull()
     .references(() => users.id, { onDelete: "cascade" }),
+  /** legacy: set by the old Polar checkout */
   polarCheckoutId: text("polar_checkout_id").unique(),
   lines: jsonb("lines").$type<CheckoutSessionLine[]>().notNull(),
   totalCents: integer("total_cents").notNull(),
   currency: text("currency").notNull(),
+  shipping: jsonb("shipping").$type<ShippingDetails>(),
   createdAt: timestamp("created_at", { withTimezone: true })
     .defaultNow()
     .notNull(),
@@ -69,8 +81,16 @@ export const orders = pgTable("orders", {
     .notNull()
     .references(() => users.id, { onDelete: "cascade" }),
   status: text("status").$type<OrderStatus>().notNull().default("pending"),
+  /** legacy: Polar ids from before the switch to SSLCommerz */
   polarCheckoutId: text("polar_checkout_id"),
   polarOrderId: text("polar_order_id").unique(),
+  /** SSLCommerz transaction id (= our checkout session id) — unique, so a payment is fulfilled once */
+  tranId: text("tran_id").unique(),
+  /** SSLCommerz validation id and the method the customer paid with (e.g. "BKASH-BKash", "VISA-Dutch Bangla") */
+  valId: text("val_id"),
+  paymentMethod: text("payment_method"),
+  currency: text("currency").notNull().default("bdt"),
+  shipping: jsonb("shipping").$type<ShippingDetails>(),
   totalCents: integer("total_cents").notNull().default(0),
   createdAt: timestamp("created_at", { withTimezone: true })
     .defaultNow()

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useParams } from "react-router";
-import { ArrowRight, ChevronRight, DollarSign, Lock, ShoppingBag } from "lucide-react";
+import { ArrowRight, ChevronRight, Banknote, Lock, ShoppingBag } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ProductCard } from "@/components/ProductCard";
@@ -133,8 +133,8 @@ function ProductDetails({ product: p }) {
                 {t("product.trustSecure")}
               </li>
               <li className="flex items-center gap-2.5">
-                <DollarSign className="size-[18px] shrink-0 text-primary" aria-hidden />
-                {t("product.trustUsd")}
+                <Banknote className="size-[18px] shrink-0 text-primary" aria-hidden />
+                {t("product.trustCurrency")}
               </li>
             </ul>
           </div>

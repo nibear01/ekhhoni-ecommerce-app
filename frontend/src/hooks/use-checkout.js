@@ -2,18 +2,22 @@ import { useAuth } from "@clerk/react";
 import { useMutation } from "@tanstack/react-query";
 import { ApiError, apiFetch } from "@/lib/api";
 
-/** starts a Polar checkout for the cart and redirects the browser to Polar's hosted page */
+/**
+ * starts an SSLCommerz payment for the cart and sends the browser to its hosted payment page.
+ * `customer` = delivery details { name, phone, address, city, postcode }.
+ */
 export function useCheckout() {
   const { getToken } = useAuth();
 
   return useMutation({
-    mutationFn: async (items) => {
+    mutationFn: async ({ items, customer }) => {
       const token = await getToken();
       return apiFetch("/api/checkout", {
         method: "POST",
         token,
         body: {
           items: items.map((i) => ({ productId: i.productId, quantity: i.quantity })),
+          customer,
         },
       });
     },
@@ -31,10 +35,11 @@ export function checkoutErrorKey(error) {
       return "cart.errSignIn";
     case 400:
       if (error.message === "One or more products are invalid") return "cart.errUnavailable";
+      if (error.message === "Invalid checkout") return "cart.errDetails";
       if (error.message.startsWith("Total below")) return "cart.errMinimum";
       return "cart.errGeneric";
     case 503:
-      return error.message === "Account not synced yet" ? "cart.errSyncing" : "cart.errPayments";
+      return "cart.errPayments";
     default:
       return "cart.errGeneric";
   }

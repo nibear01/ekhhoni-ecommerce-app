@@ -25,8 +25,8 @@ export default {
     cartLabel: ({ n }, { num }) => `Cart, ${num(n)} ${n === 1 ? "item" : "items"}`,
     announceNewest: "Newest in store:",
     announceAdded: ({ when }) => `added ${when.toLowerCase()}`,
-    announceUsd: "Prices in US dollars (USD)",
-    announcePolar: "Secure checkout with Polar",
+    announceCurrency: "All prices in Bangladeshi Taka (৳)",
+    announceSecure: "Secure payment via SSLCommerz",
 
     new: "New",
     addToCart: "Add to cart",
@@ -55,7 +55,7 @@ export default {
     definitionBefore: "— right now; this very moment. As in ",
     definitionAfter: ": buy it now.",
     copyright: ({ year }) => `© ${year} Ekhhoni`,
-    footerFacts: "Prices in US dollars · Payments processed securely by Polar",
+    footerFacts: "Prices in Bangladeshi Taka (৳) · Payments processed securely by SSLCommerz",
   },
   bn: {
     skip: "মূল অংশে যান",
@@ -82,8 +82,8 @@ export default {
     cartLabel: ({ n }, { num }) => `কার্ট, ${num(n)}টি পণ্য`,
     announceNewest: "সবচেয়ে নতুন:",
     announceAdded: ({ when }) => `${when} এসেছে`,
-    announceUsd: "সব দাম মার্কিন ডলারে (USD)",
-    announcePolar: "Polar-এর মাধ্যমে নিরাপদ চেকআউট",
+    announceCurrency: "সব দাম বাংলাদেশি টাকায় (৳)",
+    announceSecure: "SSLCommerz-এর মাধ্যমে নিরাপদ পেমেন্ট",
 
     new: "নতুন",
     addToCart: "কার্টে যোগ করুন",
@@ -112,6 +112,6 @@ export default {
     definitionBefore: "— এই মুহূর্তে, এক্ষুনি। যেমন: ",
     definitionAfter: "।",
     copyright: ({ year }, { yearNum }) => `© ${yearNum(year)} এখনই (Ekhhoni)`,
-    footerFacts: "সব দাম মার্কিন ডলারে · পেমেন্ট নিরাপদে প্রসেস করে Polar",
+    footerFacts: "সব দাম বাংলাদেশি টাকায় (৳) · পেমেন্ট নিরাপদে প্রসেস করে SSLCommerz",
   },
 };

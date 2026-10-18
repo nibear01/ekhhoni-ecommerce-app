@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { I18nContext } from "./i18n-context";
 import { translate } from "./translate";
-import { formatNumber, formatPrice, relativeDay } from "./format";
+import { formatDateTime, formatNumber, formatPrice, relativeDay } from "./format";
 
 const STORAGE_KEY = "ekhhoni:lang";
 
@@ -42,6 +42,7 @@ export function LanguageProvider({ children }) {
       price: (cents, opts) => formatPrice(cents, lang, opts),
       num: (n) => formatNumber(n, lang),
       ago: (iso) => relativeDay(iso, lang),
+      date: (iso, opts) => formatDateTime(iso, lang, opts),
     }),
     [lang, setLang],
   );

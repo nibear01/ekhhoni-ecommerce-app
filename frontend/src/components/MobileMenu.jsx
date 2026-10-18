@@ -6,6 +6,7 @@ import { Menu, Search, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { LanguageSwitch } from "@/components/LanguageSwitch";
 import { useCart } from "@/cart/cart-context";
+import { useIsAdmin } from "@/hooks/use-me";
 import { useI18n } from "@/i18n/i18n-context";
 import { NAV_LINKS } from "@/lib/nav";
 import { cn } from "@/lib/utils";
@@ -17,6 +18,7 @@ export function MobileMenu() {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
+  const isAdmin = useIsAdmin();
 
   function onSearch(e) {
     e.preventDefault();
@@ -115,6 +117,13 @@ export function MobileMenu() {
               </Button>
             </Show>
             <Show when="signed-in">
+              {isAdmin && (
+                <Button asChild variant="cream" size="lg">
+                  <Link to="/admin" onClick={close}>
+                    {t("admin.adminPortal")}
+                  </Link>
+                </Button>
+              )}
               <div className="flex items-center gap-3 rounded-2xl border border-forest-foreground/20 p-3">
                 <UserButton />
                 <span className="font-medium">{t("common.account")}</span>

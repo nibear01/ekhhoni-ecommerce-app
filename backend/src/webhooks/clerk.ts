@@ -1,7 +1,7 @@
 import type { Request, Response } from "express";
 import { getEnv } from "../lib/env";
 import { verifyWebhook } from "@clerk/backend/webhooks";
-import { parseRole } from "../lib/roles";
+import { resolveRole } from "../lib/roles";
 import { db } from "../db";
 import { users } from "../db/schema";
 import { eq } from "drizzle-orm";
@@ -41,7 +41,7 @@ export async function clerkWebhookHandler(req: Request, res: Response) {
         u.username ||
         null;
 
-      const role = parseRole(u.public_metadata?.role);
+      const role = resolveRole(u.public_metadata?.role, email);
 
       await db
         .insert(users)

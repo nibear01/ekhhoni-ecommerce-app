@@ -1,5 +1,5 @@
 import { getAuth } from "@clerk/express";
-import { getLocalUser } from "../lib/users";
+import { ensureLocalUser } from "../lib/users";
 import type { NextFunction, Request, Response } from "express";
 
 export const getMe = async (
@@ -14,7 +14,7 @@ export const getMe = async (
       return;
     }
 
-    const user = await getLocalUser(userId);
+    const user = await ensureLocalUser(userId);
     if (!user) {
       res.status(503).json({ error: "Account not synced yet" });
       return;

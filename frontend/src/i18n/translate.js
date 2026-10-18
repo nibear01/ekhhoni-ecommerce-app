@@ -2,10 +2,11 @@ import common from "./messages/common";
 import home from "./messages/home";
 import product from "./messages/product";
 import cart from "./messages/cart";
+import admin from "./messages/admin";
 import { formatNumber, localeFor } from "./format";
 
 // one file per area so pages can be worked on without touching each other's strings
-const catalogs = { common, home, product, cart };
+const catalogs = { common, home, product, cart, admin };
 
 /**
  * t("home.heroTitle"), t("cart.reference", { id }).

@@ -1,13 +1,14 @@
 import { useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router";
 import { Show, UserButton } from "@clerk/react";
-import { Search, ShoppingBag } from "lucide-react";
+import { LayoutDashboard, Search, ShoppingBag } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { LanguageSwitch } from "@/components/LanguageSwitch";
 import { MobileMenu } from "@/components/MobileMenu";
 import { NAV_LINKS } from "@/lib/nav";
 import { Wordmark } from "@/components/Wordmark";
 import { useCart } from "@/cart/cart-context";
+import { useIsAdmin } from "@/hooks/use-me";
 import { useProducts } from "@/hooks/use-products";
 import { useI18n } from "@/i18n/i18n-context";
 import { scriptLang } from "@/i18n/format";
@@ -18,6 +19,7 @@ export function SiteHeader() {
   const { count } = useCart();
   const navigate = useNavigate();
   const [query, setQuery] = useState("");
+  const isAdmin = useIsAdmin();
 
   function onSearch(e) {
     e.preventDefault();
@@ -75,6 +77,14 @@ export function SiteHeader() {
             </Button>
           </Show>
           <Show when="signed-in">
+            {isAdmin && (
+              <Button asChild variant="outline" size="sm" className="hidden lg:inline-flex">
+                <Link to="/admin">
+                  <LayoutDashboard />
+                  {t("admin.admin")}
+                </Link>
+              </Button>
+            )}
             <div className="hidden size-11 place-items-center lg:grid">
               <UserButton />
             </div>
@@ -120,13 +130,13 @@ function AnnouncementBar() {
               </span>
             </>
           ) : (
-            <span className="lg:hidden">{t("common.announcePolar")}</span>
+            <span className="lg:hidden">{t("common.announceSecure")}</span>
           )}
         </p>
         <p className="hidden items-center gap-2.5 text-forest-muted lg:flex">
-          <span>{t("common.announceUsd")}</span>
+          <span>{t("common.announceCurrency")}</span>
           <span aria-hidden="true">·</span>
-          <span>{t("common.announcePolar")}</span>
+          <span>{t("common.announceSecure")}</span>
         </p>
       </div>
     </div>

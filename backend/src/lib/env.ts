@@ -12,14 +12,18 @@ const envSchema = z.object({
   CLERK_PUBLISHABLE_KEY: z.string().min(1),
   CLERK_SECRET_KEY: z.string().min(1),
   CLERK_WEBHOOK_SECRET: z.string().optional(),
+  // comma-separated emails that are always admins (bootstraps the first admin)
+  ADMIN_EMAILS: z.string().optional(),
 
   FRONTEND_URL: z.string().url(),
 
-  POLAR_ACCESS_TOKEN: z.string().optional(),
-  POLAR_WEBHOOK_SECRET: z.string().optional(),
-  POLAR_API_BASE: z.string().url().default("https://api.polar.sh"),
-  //fix this later to be uuid
-  POLAR_CHECKOUT_PRODUCT_ID: z.string().uuid(),
+  // SSLCommerz (BDT payments). Sandbox credentials: https://developer.sslcommerz.com/registration/
+  SSLCOMMERZ_STORE_ID: z.string().optional(),
+  SSLCOMMERZ_STORE_PASSWORD: z.string().optional(),
+  SSLCOMMERZ_SANDBOX: z
+    .enum(["true", "false"])
+    .default("true")
+    .transform((v) => v === "true"),
 
   STREAM_API_KEY: z.string().min(1),
   STREAM_API_SECRET: z.string().min(1),

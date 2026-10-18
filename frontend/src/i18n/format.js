@@ -19,17 +19,15 @@ export function formatNumber(n, lang) {
 }
 
 /**
- * USD price from integer cents. "$" stays a prefix in both languages (Polar charges USD).
- * Whole amounts drop the decimals on browse surfaces ("$129" / "$১২৯");
- * pass { fixed: true } for cart maths ("$403.00" / "$৪০৩.০০").
+ * Taka price from integer poisha (৳1 = 100). Prices are whole Taka, so decimals only appear
+ * if a legacy price has poisha: "৳1,290" / "৳১,২৯০" (Bangla uses lakh grouping: ৳১,২৯,০০০).
  */
-export function formatPrice(cents, lang, { fixed = false } = {}) {
-  const whole = !fixed && cents % 100 === 0;
+export function formatPrice(cents, lang) {
   const amount = new Intl.NumberFormat(localeFor(lang), {
-    minimumFractionDigits: whole ? 0 : 2,
+    minimumFractionDigits: cents % 100 === 0 ? 0 : 2,
     maximumFractionDigits: 2,
   }).format(cents / 100);
-  return `$${amount}`;
+  return `৳${amount}`;
 }
 
 export function daysAgo(iso) {
@@ -47,4 +45,12 @@ export function relativeDay(iso, lang) {
     "day",
   );
   return lang === "en" ? text[0].toUpperCase() + text.slice(1) : text;
+}
+
+/** "18 Oct 2026, 3:42 pm" / "১৮ অক্টো, ২০২৬, ৩:৪২ PM" */
+export function formatDateTime(iso, lang, { time = true } = {}) {
+  return new Intl.DateTimeFormat(lang === "bn" ? "bn-BD" : "en-GB", {
+    dateStyle: "medium",
+    ...(time && { timeStyle: "short" }),
+  }).format(new Date(iso));
 }
