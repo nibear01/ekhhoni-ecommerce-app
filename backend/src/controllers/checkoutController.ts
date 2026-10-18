@@ -54,7 +54,8 @@ export async function createCheckout(
       return;
     }
 
-    const ids = parsed.data.items.map((i) => i.productId);
+    // dedupe so the same product on two cart lines isn't rejected below
+    const ids = [...new Set(parsed.data.items.map((i) => i.productId))];
 
     // load every cart product that exists, is active, and matches the IDs we asked for.
     const prodRows = await db

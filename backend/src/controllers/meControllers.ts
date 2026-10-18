@@ -15,6 +15,10 @@ export const getMe = async (
     }
 
     const user = await getLocalUser(userId);
+    if (!user) {
+      res.status(503).json({ error: "Account not synced yet" });
+      return;
+    }
     res.json(user);
   } catch (error) {
     next(error);

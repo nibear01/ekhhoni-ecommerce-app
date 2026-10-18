@@ -10,7 +10,7 @@ export async function listProducts(
 ) {
   try {
     const cat =
-      req.query.category === "string" ? req.query.category.trim() : "";
+      typeof req.query.category === "string" ? req.query.category.trim() : "";
 
     const activeOnly = eq(products.active, true);
     const whereClause = cat
