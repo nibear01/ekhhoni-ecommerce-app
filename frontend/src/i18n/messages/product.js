@@ -1,0 +1,31 @@
+// Product detail page.
+export default {
+  en: {
+    breadcrumb: "Breadcrumb",
+    home: "Home",
+    addedWhen: ({ when }) => `Added ${when.toLowerCase()}`,
+    noDescription: "No description yet.",
+    trustSecure: "Secure checkout with Polar",
+    trustUsd: "Prices in US dollars (USD)",
+    moreEyebrow: "Keep browsing",
+    moreIn: "More in {category}",
+    alsoLike: "You may also like",
+    seeAll: "See all",
+    notFound: "Product not found",
+    loadError: "We couldn't load this product.",
+  },
+  bn: {
+    breadcrumb: "পথনির্দেশ",
+    home: "হোম",
+    addedWhen: ({ when }) => `${when} যোগ হয়েছে`,
+    noDescription: "এখনো কোনো বিবরণ যোগ করা হয়নি।",
+    trustSecure: "Polar-এর মাধ্যমে নিরাপদ চেকআউট",
+    trustUsd: "সব দাম মার্কিন ডলারে (USD)",
+    moreEyebrow: "আরও দেখুন",
+    moreIn: "{category} ক্যাটাগরিতে আরও",
+    alsoLike: "আপনার পছন্দ হতে পারে",
+    seeAll: "সব দেখুন",
+    notFound: "পণ্যটি পাওয়া যায়নি",
+    loadError: "পণ্যটি লোড করা যাচ্ছে না।",
+  },
+};
